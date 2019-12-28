@@ -1,0 +1,148 @@
+let prevMouseX
+let prevMouseY
+let prevScal = 5
+let dmin
+let l
+let c = -2
+
+function setup() {
+  createCanvas(300, 300);
+  pixelDensity(1);
+  background(10);
+  scal = createSlider(0.1, 1.5*Math.PI, 1.5*Math.PI, 0.01);
+ 
+  for (let i = 0; i< width*4;i+=4) {
+    for (let j = 0; j< height*4;j+=4) {
+      l = drawPoints(i/4, j/4)
+      loadPixels();
+      if (l == 0) {
+      pixels[i+j*width] = 250;
+      pixels[i+j*width+1] = 0;
+      pixels[i+j*width+2] = 0;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 1) {
+      pixels[i+j*width] = 0;
+      pixels[i+j*width+1] = 250;
+      pixels[i+j*width+2] = 0;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 2) {
+      pixels[i+j*width] = 0;
+      pixels[i+j*width+1] = 0;
+      pixels[i+j*width+2] = 250;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 3) {
+      pixels[i+j*width] = 200;
+      pixels[i+j*width+1] = 250;
+      pixels[i+j*width+2] = 0;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 4) {
+      pixels[i+j*width] = 200;
+      pixels[i+j*width+1] = 0;
+      pixels[i+j*width+2] = 250;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 5) {
+      pixels[i+j*width] = 0;
+      pixels[i+j*width+1] = 250;
+      pixels[i+j*width+2] = 250;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 6) {
+      pixels[i+j*width] = 100;
+      pixels[i+j*width+1] = 200;
+      pixels[i+j*width+2] = 50;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 7) {
+      pixels[i+j*width] = 200;
+      pixels[i+j*width+1] = 50;
+      pixels[i+j*width+2] = 100;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 8) {
+      pixels[i+j*width] = 100;
+      pixels[i+j*width+1] = 200;
+      pixels[i+j*width+2] = 50;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 9){
+      pixels[i+j*width] = 50;
+      pixels[i+j*width+1] = 50;
+      pixels[i+j*width+2] = 150;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 10) {
+      pixels[i+j*width] = 200;
+      pixels[i+j*width+1] = 20;
+      pixels[i+j*width+2] = 80;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 11) {
+      pixels[i+j*width] = 100;
+      pixels[i+j*width+1] = 50;
+      pixels[i+j*width+2] = 150;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 12) {
+      pixels[i+j*width] = 50;
+      pixels[i+j*width+1] = 50;
+      pixels[i+j*width+2] = 100;
+      pixels[i+j*width+3] = 200;
+    } else if (l == 13) {
+      pixels[i+j*width] = 200;
+      pixels[i+j*width+1] = 200;
+      pixels[i+j*width+2] = 150;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 14) {
+      pixels[i+j*width] = 20;
+      pixels[i+j*width+1] = 180;
+      pixels[i+j*width+2] = 130;
+      pixels[i+j*width+3] = 100;
+    } else if (l == 15) {
+      pixels[i+j*width] = 200;
+      pixels[i+j*width+1] = 200;
+      pixels[i+j*width+2] = 200;
+      pixels[i+j*width+3] = 100;
+    } else {
+      pixels[i+j*width] = 0;
+      pixels[i+j*width+1] = 0;
+      pixels[i+j*width+2] = 0;
+      pixels[i+j*width+3] = 0;
+    }
+      updatePixels();
+    }
+  }
+}
+
+function drawPoints(mouse1, mouse2) {
+  let a = scal.value() * (mouse1 - width / 2) / (width / 2);
+  let b = -scal.value() * (mouse2 - height / 2) / (height / 2);
+  let a1 = a;
+  let b1 = b;
+  let a2 = a;
+  let b2 = b;
+  let v1 = createVector(1, 0);
+  let v2
+  let r
+  let t
+  let col
+  let p = 0
+  let currdmin = 10
+  let lim
+  let radiusLog
+  for (let j = 0; j < 50; j++) {
+    v2 = createVector(a1, b1);
+    if (b < 0) {
+      t = -v2.angleBetween(v1)
+    } else {
+      t = v2.angleBetween(v1)
+    }
+    r = (Math.E) ** (a1 * Math.log((a1 ** 2 + b1 ** 2) ** (1 / 2)) - b1 * t);
+    a2 = r * cos(a1 * t + b1 * Math.log((a1 ** 2 + b1 ** 2) ** (1 / 2)));
+    b2 = r * sin(a1 * t + b1 * Math.log((a1 ** 2 + b1 ** 2) ** (1 / 2)));
+    a1 = a2+a;
+    b1 = b2+b;
+    dmin = (a1 - a) ** 2 + (b1 - b) ** 2;
+    if (dmin < currdmin) {
+      currdmin = dmin;
+      lim = j;
+    }
+  }
+  return lim
+}
+
+
+function draw() {
+}
