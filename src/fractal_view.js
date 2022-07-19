@@ -22,12 +22,12 @@ function drawPoints(mouse1, mouse2, centreX, centreY, prevScal, resolution) {
   let lim;
   let dmin;
   let radiusLog;
+  if (b < 0) {
+    t = -v2.angleBetween(v1);
+  } else {
+    t = v2.angleBetween(v1);
+  }
   for (let j = 0; j < resolution; j++) {
-    if (b < 0) {
-      t = -v2.angleBetween(v1);
-    } else {
-      t = v2.angleBetween(v1);
-    }
     radiusLog = (1 / 2) * Math.log(a ** 2 + b ** 2);
     r = Math.E ** (a1 * radiusLog - b1 * t);
     a2 = r * Math.cos(a1 * t + b1 * radiusLog);
