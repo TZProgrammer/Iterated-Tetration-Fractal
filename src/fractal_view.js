@@ -1,40 +1,51 @@
 //Trocar zoom slider pelo scroll wheel
 // mostrar as coordenadas do mouse
-let prevScal = 0.1;
-let prevShiftsX = [];
-let prevShiftsY = [];
+let prevScal = 0.02;
+let camera_x = 0.0;
+let camera_y = 0.0;
 let resolution = 50;
 
-function drawPoints(mouse1, mouse2, centreX, centreY, prevScal, resolution) {
-  let a = (prevScal * (mouse1 - width / 2)) / (width / 2) + centreX;
-  let b = (-prevScal * (mouse2 - height / 2)) / (height / 2) + centreY;
+function clearScreen() {
+  for (let i = 0; i < width * 4; i += 1) {
+    for (let j = 0; j < height * 4; j += 1) {
+      pixels[i + width * j] = 0
+    }
+  }
+}
+
+function drawPoints(currPixelX, currPixelY, centreX, centreY, prevScal, resolution) {
+  let a = map(currPixelX, 0, width, -prevScal + centreX, prevScal + centreX)
+  let b = map(currPixelY, 0, height, -prevScal + centreY, prevScal + centreY)
   let a1 = a;
   let b1 = b;
-  let a2 = a;
-  let b2 = b;
   let v1 = createVector(1, 0);
   let v2 = createVector(a, b);
   let r;
   let t;
   let col;
   let p = 0;
-  let currdmin = 10;
-  let lim;
+  let currdmin;
+  let lim = 1;
   let dmin;
-  let radiusLog;
+  const originalRadiusSquared = a ** 2 + b ** 2; 
+  let newAngle;
+  const radiusLog = (1 / 2) * Math.log(originalRadiusSquared);
+  const eulersConstant = Math.E
   if (b < 0) {
-    t = -v2.angleBetween(v1);
-  } else {
-    t = v2.angleBetween(v1);
+      t = -v2.angleBetween(v1);
+    } else {
+      t = v2.angleBetween(v1);
   }
-  for (let j = 0; j < resolution; j++) {
-    radiusLog = (1 / 2) * Math.log(a ** 2 + b ** 2);
-    r = Math.E ** (a1 * radiusLog - b1 * t);
-    a2 = r * Math.cos(a1 * t + b1 * radiusLog);
-    b2 = r * Math.sin(a1 * t + b1 * radiusLog);
-    a1 = a2;
-    b1 = b2;
+  for (let j = 1; j < resolution; j++) {
+    r =eulersConstant ** (a1 * radiusLog - b1 * t);
+    newAngle = a1 * t + b1 * radiusLog;
+    a1 = r * Math.cos(newAngle);
+    b1 = r * Math.sin(newAngle);
+    
     dmin = (a1 - a) ** 2 + (b1 - b) ** 2;
+    //dmin = (r ** 2) + originalRadiusSquared - 2 * (a1 * a + b1 * b)
+    
+    if (j == 1) currdmin = dmin;
     if (dmin < currdmin) {
       currdmin = dmin;
       lim = j;
@@ -49,8 +60,8 @@ function printScreen(xShift = 0, yShift = 0) {
   loadPixels();
   for (let i = 0; i < width * 4; i += 4) {
     for (let j = 0; j < height * 4; j += 4) {
-      l = drawPoints(i / 4, j / 4, xShift, yShift, prevScal, resolution);
-      l = l % 16;
+      l = drawPoints(i / 4, j / 4, camera_x, camera_y, prevScal, resolution);
+      l = (l-1) % 16;
       if (l == 0) {
         pixels[i + j * width] = 250;
         pixels[i + j * width + 1] = 0;
@@ -138,23 +149,23 @@ function printScreen(xShift = 0, yShift = 0) {
 }
 
 function mousePressed() {
-  prevShiftsX.push(mouseX);
-  prevShiftsY.push(mouseY);
-  let xShift = 0;
-  let yShift = 0;
-  for (let i = 0; i < prevShiftsX.length; i++) {
-    yShift -= (prevScal * (prevShiftsY[i] - height / 2)) / (height / 2);
-    xShift += (prevScal * (prevShiftsX[i] - width / 2)) / (width / 2);
-  }
-  printScreen(xShift, yShift);
+  
+  camera_x += map(mouseX, 0, width, -prevScal, prevScal);
+  camera_y += map(mouseY, 0, height, -prevScal, prevScal);
+  clearScreen();
+  printScreen(camera_x, camera_y);
 }
 
 function setup() {
-  createCanvas(600, 600);
+  createCanvas(900, 900);
   pixelDensity(1);
   background(0);
+  var start_time = performance.now()
   printScreen(0, 0);
-  // saveCanvas('Trejgier Fractal 0.1 around origin 1920x1920 full color', 'jpg');
+  var end_time = performance.now()
+  
+  console.log(end_time - start_time)
+  saveCanvas('Trejgier Fractal 4 around origin 900x900 full color', 'jpg');
 }
 
 function draw() {}
