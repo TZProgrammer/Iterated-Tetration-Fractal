@@ -157,7 +157,7 @@ function mousePressed() {
 }
 
 function setup() {
-  createCanvas(1920, 1920);
+  createCanvas(10000, 10000);
   pixelDensity(1);
   background(0);
   var start_time = performance.now()
@@ -165,7 +165,7 @@ function setup() {
   var end_time = performance.now()
   
   console.log(end_time - start_time)
-  saveCanvas('Trejgier Fractal (5,0) 1920x1920', 'jpg');
+  saveCanvas('Trejgier_Fractal_4-0_10000x10000', 'jpg');
 }
 
 function draw() {}
