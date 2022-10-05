@@ -1,6 +1,6 @@
 //Trocar zoom slider pelo scroll wheel
 // mostrar as coordenadas do mouse
-let prevScal = 4;
+let prevScal = 0.1;
 let camera_x = 0.0;
 let camera_y = 0.0;
 let resolution = 200;
@@ -165,7 +165,7 @@ function setup() {
   var end_time = performance.now()
   
   console.log(end_time - start_time)
-  saveCanvas('Trejgier_Fractal_4-0_10000x10000', 'jpg');
+  saveCanvas('Trejgier_Fractal_0.1-0_10000x10000', 'jpg');
 }
 
 function draw() {}
