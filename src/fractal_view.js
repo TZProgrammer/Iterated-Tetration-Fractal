@@ -1,9 +1,9 @@
 //Trocar zoom slider pelo scroll wheel
 // mostrar as coordenadas do mouse
-let prevScal = 0.02;
+let prevScal = 4;
 let camera_x = 0.0;
 let camera_y = 0.0;
-let resolution = 50;
+let resolution = 200;
 
 function clearScreen() {
   for (let i = 0; i < width * 4; i += 1) {
@@ -157,7 +157,7 @@ function mousePressed() {
 }
 
 function setup() {
-  createCanvas(900, 900);
+  createCanvas(1920, 1920);
   pixelDensity(1);
   background(0);
   var start_time = performance.now()
@@ -165,7 +165,7 @@ function setup() {
   var end_time = performance.now()
   
   console.log(end_time - start_time)
-  saveCanvas('Trejgier Fractal 4 around origin 900x900 full color', 'jpg');
+  saveCanvas('Trejgier Fractal (5,0) 1920x1920', 'jpg');
 }
 
 function draw() {}
