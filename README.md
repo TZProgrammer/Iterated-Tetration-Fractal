@@ -9,5 +9,8 @@ Tetration Fractal in the window (-4,-4), (4,4) at 1920x1920 resolution:
 Tetration Fractal in the window (-4,-4), (4,4) at 10000x10000 resolution:
 ![Tetration Fractal in the window (-4,-4), (4,4)](https://github.com/TZProgrammer/tetration-fractals/blob/main/results/Trejgier_Fractal_4-0_10000x10000.jpg?raw=true)
 
-Tetration Fractal in the window (-0.1,-0.1), (0.1,0.1):
+Tetration Fractal in the window (-0.1,-0.1), (0.1,0.1) at 1920x1920:
 ![Tetration Fractal in the window (-0.1,-0.1), (0.1,0.1)](https://github.com/TZProgrammer/tetration-fractals/blob/main/results/Trejgier_Fractal_0.1-0_1920x1920.jpg?raw=true)
+
+Tetration Fractal in the window (-0.1,-0.1), (0.1,0.1) at 10000x10000:
+![Tetration Fractal in the window (-0.1,-0.1), (0.1,0.1)](https://github.com/TZProgrammer/tetration-fractals/blob/main/results/Trejgier_Fractal_0.1-0_10000x10000.jpg?raw=true)
